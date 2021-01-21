@@ -1,10 +1,8 @@
 # PrintTemplate
 
-
-
 ## 更新 (多页模板)
 
-[例子2](https://xxllxx.github.io/PrintTemplate/example/index1.html)
+[例子 2](https://xxllxx.github.io/PrintTemplate/example/index1.html)
 
 ```
 多页模板属性
@@ -12,11 +10,11 @@
 {
 
   name:'template1',
-  unit:'mm',          
-  size:'a4',           
-  multiPage: true,  // treu :  多页模板  false : 默认 单页 
+  unit:'mm',
+  size:'a4',
+  multiPage: true,  // treu :  多页模板  false : 默认 单页
   // 分页方式  传入打印每行的数据 分配模板打印数据
-  pageMode: function (data) { 
+  pageMode: function (data) {
     // 例子2 判断 存在 phone 属性 打印 当前模板 和 template1 模板
     if (data.phone) {
       return [{ name: this.name, data }, { name: 'template1', data: { text: data.phone } }]
@@ -31,10 +29,10 @@
 
 ```
 
-
 ## 模板打印-套打
 
 ## 安装
+
 ```
 yarn add print-template
 
@@ -43,8 +41,6 @@ yarn add print-template
 npm install print-template
 
 ```
-
-
 
 ## 使用
 
@@ -59,7 +55,7 @@ let  template  = new printTemplate()
 //添加模板
 template.push({
   name:'template1', // 模板名称
-  unit:'mm',        // 尺寸  mm / px 
+  unit:'mm',        // 尺寸  mm / px
   size:'a4',        // a4 或 [221,291]
   fixed:[           // 固定的数据
     {
@@ -87,7 +83,7 @@ template.push({
       x:10,                 // *x
       y:20,                 // *y
       width: 25,            // *宽度
-      height: 25,           // *高度  
+      height: 25,           // *高度
     },
     {
       type:'barcode' ,      // 条形码  文本 line / text / image / barcode / qrcode
@@ -95,16 +91,16 @@ template.push({
       x:10,                 // *x
       y:20,                 // *y
       width: 3,             // *线宽
-      height: 25,           // *高度  
+      height: 25,           // *高度
       format: 'CODE128A',   // 条形码格式
       fontOptions: 'bold'   // 粗体   bold / italic / bold  italic
     },
     {
       type:'qrcode' ,      // *条形码  文本 line / text / image / barcode / qrcode
-      default:'二维码文本',  // *默认值  
+      default:'二维码文本',  // *默认值
       x:10,                 // *x
       y:20,                 // *y
-      width: 25,            // *宽度 
+      width: 25,            // *宽度
     }
 
   ],
@@ -114,14 +110,14 @@ template.push({
       x:10,                 // *x
       y:20,                 // *y
       width: 3,            // *线宽度
-      height: 25,           // *高度  
+      height: 25,           // *高度
       format: 'CODE128A',   // 条形码格式
     },
     code2:{                 // 传入数据的属性名称
       type:'qrcode' ,       // *条形码  文本 line / text / image / barcode / qrcode
       x:10,                 // *x
       y:20,                 // *y
-      width: 25,            // *宽度 
+      width: 25,            // *宽度
     }
 
   }
@@ -135,13 +131,13 @@ let pdf = await template.print(
   [                     // 打印数据  {} 或 [{},{},{}]
     {
       code:'YOO11111111',  // 条形码 CODE128A 类型 大写字母加数字
-      code2:'记得start',   // 二维码 
+      code2:'记得start',   // 二维码
     },
      {
       code:'T00222222',  // 条形码 CODE128A 类型 大写字母加数字
-      code2:'记得start',   // 二维码 
+      code2:'记得start',   // 二维码
     }
-  ])        
+  ])
 
 
 // 下载 / 预览
@@ -155,9 +151,8 @@ pdf.save( fileName ||'打印文件' );
 
 ```
 
+## 例子
 
-## 例子 
+[例子 1](https://xxllxx.github.io/PrintTemplate/example/)
 
-[例子1](https://xxllxx.github.io/PrintTemplate/example/)
-
-[例子2 (多页模板)](https://xxllxx.github.io/PrintTemplate/example/index1.html)
+[例子 2 (多页模板)](https://xxllxx.github.io/PrintTemplate/example/index1.html)

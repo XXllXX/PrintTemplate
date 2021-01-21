@@ -1,0 +1,127 @@
+<script src="https://cdn.jsdelivr.net/npm/vue"></script>
+<link rel="stylesheet" href="https://unpkg.com/element-ui/lib/theme-chalk/index.css">
+<script src="https://unpkg.com/element-ui/lib/index.js"></script>
+<script src="../dist/all/printTemplate.min.js"></script>
+<style>
+  .main>label {
+
+    width: 120px;
+  }
+</style>
+<div id="app">
+  <el-row :gutter="12">
+    <el-col :offset="8" :span="8">
+
+      <el-card shadow="always">
+        <div slot="header" class="clearfix">
+          <span>简单实例</span>
+        </div>
+
+        <div>
+          <el-form label-width="80px">
+            <el-form-item label="名字">
+              <el-input v-model="from.name"></el-input>
+            </el-form-item>
+            <el-form-item label="条形码">
+              <el-input v-model="from.code"></el-input>
+            </el-form-item>
+            <el-form-item label="页数">
+              <el-input-number v-model="from.num" controls-position="right" :min="1" :max="10">
+              </el-input-number>
+            </el-form-item>
+            <el-form-item>
+              <el-button type="primary" @click="print">生成打印文件</el-button>
+              <el-button v-if="url" type="success" @click="openPdf">
+                打开生成文件
+              </el-button>
+            </el-form-item>
+          </el-form>
+        </div>
+
+      </el-card>
+    </el-col>
+
+  </el-row>
+
+</div>
+
+<script>
+
+  var app = new Vue({
+    el: '#app',
+    data: function () {
+      return { url: '', template: null, from: { num: 10, name: '张三', code: 'YT121212323' } }
+    },
+    created() {
+      this.template = new printTemplate.default()
+      this.template.push(
+        {
+          name: 'expressDelivery1',
+          size: [210, 297],
+          multiPage: true,
+          pageMode: function (data) {
+
+            if (data['pageSize']) {
+              return [{ name: this.name, data }, { name: 'expressDelivery2', data: { name: '0001' } }]
+            }
+          },
+          linkTemplate: ['expressDelivery1'],
+          fixed: [
+            { type: 'line', x: 2, y: 12, length: 72 },
+            { type: 'line', x: 2, y: 12, orientation: 'p', length: 116 },
+            { type: 'line', x: 74, y: 12, orientation: 'p', length: 116 },
+            { type: 'line', x: 2, y: 27, length: 72 },
+            { type: 'line', x: 2, y: 35, length: 72 },
+            { type: 'line', x: 2, y: 41, length: 52 },
+            { type: 'line', x: 54, y: 35, orientation: 'p', length: 32 },
+            { type: 'line', x: 54, y: 49, length: 20 },
+            { type: 'line', x: 2, y: 59, length: 72 },
+            { type: 'line', x: 2, y: 67, length: 72 },
+            { type: 'line', x: 2, y: 77, length: 72 },
+            { type: 'line', x: 2, y: 110, length: 72 },
+            { type: 'line', x: 2, y: 128, length: 72 },
+            { type: 'text', fontSize: 3.8, fontWeight: 700, x: 66, y: 2, default: '货到\n付款' },
+            { type: 'qrcode', x: 25, y: 79, width: 25, default: '开发不易，记得start奥' },
+
+          ],
+
+          data: {
+            name: { type: 'text', x: 8, y: 45, fontSize: 3.5 },
+            code: { type: 'barcode', x: 7, y: 13, format: 'CODE128A', width: 4, margin: 0, fontSize: 3.3, fontOptions: 'bold', displayValue: true, height: 13 },
+          }
+
+        }
+      )
+    },
+    methods: {
+      openPdf() {
+        let link = document.createElement('a')
+        link.href = this.url
+        link.target = '_blank'
+        link.click()
+        console.log(this.url);
+
+        // window.open(this.url, '_blank');
+      },
+      print() {
+        let data = []
+        this.url = null
+        for (let index = 0; index < this.from.num; index++) {
+          data.push({ code: this.from.code + (index + 1), name: this.from.name + (index + 1), pageSize: '12' })
+        }
+        this.template.getPrintData('expressDelivery1', data).then(printData => { 
+          console.log(printData)
+        })
+
+        // this.template.print('expressDelivery1', data).then(pdf => { 
+        //   if (pdf) {
+        //     this.$message.success('生成成功')
+        //     this.url = pdf.output('bloburi', { filename: '打印文件' })
+        //   } else {
+        //     this.$message.warring('生成失败')
+        //   }
+        // })
+      }
+    },
+  })
+</script>
