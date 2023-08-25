@@ -1,0 +1,7 @@
+node_modules
+src
+out
+!/dist
+dist/all/printTemplate.js
+dist/printTemplate.js
+node_modules/

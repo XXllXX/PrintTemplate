@@ -1,0 +1,33 @@
+{
+  "compilerOptions": {
+    "outDir": "./out",
+    "baseUrl": "./src",
+    "paths": {
+      "*": [
+        "types/*"
+      ]
+    },
+    "module": "commonjs",
+    "noImplicitAny": false,
+    "removeComments": true,
+    "preserveConstEnums": true,
+    "sourceMap": false,
+    "target": "es5",
+    "lib": [
+      "es2015",
+      "es6",
+      "dom",
+      "scripthost",
+      "es5",
+      "es2015.promise",
+      "es2015.core"
+    ]
+  },
+  "include": [
+    "src/**/*"
+  ],
+  "exclude": [
+    "node_modules",
+    "test/*.ts"
+  ],
+}
